@@ -1,5 +1,5 @@
 ls -l
-
+ls -l
 l：软连接   rwx rwx rwx r：read w:write x：execute 执行
 lrwxrwxrwx.   1 root root    7 10月  9 2019 bin -> usr/bin
 d：目录/文件夹
