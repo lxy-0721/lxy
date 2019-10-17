@@ -1,0 +1,135 @@
+ls -l
+
+l：软连接   rwx rwx rwx r：read w:write x：execute 执行
+lrwxrwxrwx.   1 root root    7 10月  9 2019 bin -> usr/bin
+d：目录/文件夹
+dr-xr-xr-x.  13 root root    0 10月  9 2019 sys
+-：文件
+-r-xr-xr-x.  13 root root    0 10月  9 2019 test.txt
+
+
+vi  文件名  编辑文件
+默认在命令行模式下，不能写入内容
+输入i ,o ,a 进行编辑模式，能够写入内容
+想保存时，按esc，退出编辑模式，进入命令行模式
+按 冒号 ，然后写入wq ,回车，保存文件
+
+1. 切换目录          cd 目录   cd /   cd /root/lanou 
+2. 查询当前所在目录  pwd
+3. 列出当前目录下所有的文件和文件夹  ls -al
+4. 创建一个空文件    touch  文件名
+5. 编辑文件          vi  文件名
+				命令行模式
+				进入编辑模式  i o a
+				退出编辑模式  esc
+				保存  ：wq!
+				直接退出不保存   :q!
+6. 查看文件内容     cat 文件名  从上往下展示
+					tac 文件名   从下往上展示
+					
+					head -n 2 文件名   显示文件中前两行内容
+					tail -n 2 文件名   显示文件最后两行内容
+					
+					cat 文件名 |  more  管道命令 
+					空格键 一屏一屏展示
+					回车键 一行一行展示
+				
+1.修改文件的拥有者  chown 拥有着名字 文件名
+2.修改文件的访问权限  chmod u+x 文件名    chmod o-x 文件名  chmod 777 文件名          r w x 
+3.创建用户  useradd 用户名
+4.修改用户密码  passwd 用户名
+5.删除用户  userdel 用户名
+6.查询当前登录的用户   whoami
+7.清屏 clear
+8.查询文件内容   cat  tac  head  tail      cat 文件名|more 
+9.切换登陆用户  su 用户名
+10.解压缩  tar -zxvf 压缩包名字.tar.gz
+
+linux 下 安装jdk
+		 安装tomcat，启动，停止
+		 安装mysql，启动服务，停止服务
+打包项目，放到linux环境下部署   实施	
+
+查询当前网络连接： windows : ipconfig
+			       unix/linux : ifconfig
+查看网络是否能够连通： ping  ip地址或者域名
+
+安装jdk的基本步骤：
+1.检查系统是否有已安装的软件包   
+		rpm -qa | grep jdk                
+			java-1.8.0-openjdk-headless-1.8.0.131-11.b12.el7.x86_64
+			copy-jdk-configs-2.2-3.el7.noarch
+2.卸载已安装的软件包  --nodeps 级联卸载
+		rpm -e --nodeps java-1.8.0-openjdk-headless 
+		rpm -e --nodeps copy-jdk-configs 
+3.重新查询 rpm -qa | grep jdk 
+
+4.安装jdk ，解压jdk到/usr/local目录
+
+5.配置环境变量，vi /etc/profile文件
+最后一行添加以下内容  ： 备注：一定要改home路径
+export JAVA_HOME=/usr/local/jdk1.8.0_191
+export CLASSPATH=.:${JAVA_HOME}/jre/lib/rt.jar:${JAVA_HOME}/lib/dt.jar:${JA
+VA_HOME}/lib/tools.jar
+export PATH=$PATH:${JAVA_HOME}/bin
+6.让配置文件生效  source /etc/profile
+7.测试jdk是否配置成功
+	切换到任意目录下，输入  javac  
+							java -version
+	 
+配置tomcat环境，启动tomcat服务
+1.解压缩tomcat压缩包
+tar -zxvf 压缩包名 -C /usr/local/
+2.切换的tomcat home目录
+cd /usr/local/apache-tomcat
+cd bin
+3.在bin目录中启动，停止tomcat服务
+./startup.sh
+./shutdown.sh
+4.如果防火墙开启，并且该端口未开放，其他电脑浏览器无法访问
+解决方案：
+	停止防火墙 service iptables stop   redhat适用
+	开启防火墙 service iptables start  redhat适用
+	
+	停止防火墙 systemctl stop firewalld   contos适用
+	开启防火墙 systemctl start firewalld  contos适用
+
+	开启防火墙，同时开放防火墙中的指定端口
+	firewall-cmd --zone=public --add-port=8080/tcp --permanent  
+	备注：centos适用
+	重启防火墙 systemctl restart firewalld
+
+groupadd mysql  创建组
+useradd -g mysql mysql  创建用户并分配组
+chown mysql:mysql -R mysql-5.6.42 级联赋权
+
+
+项目上线：
+1.打包项目 war包
+2.把打好的war包 上传到linux服务器 tomcat中webapps目录下
+3.把项目对应的数据库导出为sql文件，并恢复到指定的数据库中
+4.重启tomcat服务
+5.测试访问
+
+如果不想配置项目名，启动tomcat指定端口就直接访问项目
+到tomcat下conf文件夹中，找server.xml文件，在host标签中添加context配置项目绝对路径
+
+ <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+
+    <Context path="" 
+	docBase="/usr/local/apache-tomcat-8.5.35/webapps/Permissions" 
+	reloadable="false" />
+
+
+
+
+
+
+
+
+
+
+
+
+
