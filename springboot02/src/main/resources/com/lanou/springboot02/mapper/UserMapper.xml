@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanou.springboot02.mapper.UserMapper">
+
+    <select id="listAll" resultType="com.lanou.springboot02.bean.Emp">
+        select * from emp
+    </select>
+
+    <select id="allUser" resultType="com.lanou.springboot02.bean.User">
+        select * from users
+    </select>
+
+    <insert id="saveUser" parameterType="com.lanou.springboot02.bean.User">
+        INSERT INTO users (ID, NAME) VALUES (${id},${name})
+    </insert>
+
+    <select id="findUser" resultType="com.lanou.springboot02.bean.User">
+        select * from users where id=#{id}
+    </select>
+
+    <update id="updateUser" parameterType="com.lanou.springboot02.bean.User">
+        update users set name=#{name} where id=#{id}
+    </update>
+
+    <delete id="daleteUser">
+        delete from users where id=#{id}
+    </delete>
+
+</mapper>
